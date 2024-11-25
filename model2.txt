@@ -1,0 +1,27 @@
+model {
+    #--------MODEL-------
+    for (i in 1:N) {
+      price[i] ~ dnorm(mu[i], tau)
+      mu[i] <- beta0 +
+               beta1 * cores[i] +
+               beta2 * cpuMark[i] + 
+               beta3 * testDate[i] +
+               beta5 * TDP[i] +
+	       beta6 * brandIntel[i] +
+               beta7 * catDesktop[i] +
+               beta8 * catLaptop[i] +
+               beta10 * powerPerf[i]
+    }
+    #-------PRIORS-------
+    beta0 ~ dnorm(0, 0.1)
+    beta1 ~ dnorm(0, 0.1)
+    beta2 ~ dnorm(0, 0.1)
+    beta3 ~ dnorm(0, 0.1)
+    beta5 ~ dnorm(0, 0.1)
+    beta6 ~ dnorm(0, 0.1)
+    beta7 ~ dnorm(0, 0.1)
+    beta8 ~ dnorm(0, 0.1)
+    beta10 ~ dnorm(0, 0.1)
+    tau ~ dgamma(0.1, 0.1)    # precision parameter
+    sigma <- 1 / sqrt(tau)
+}

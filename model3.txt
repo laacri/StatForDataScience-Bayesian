@@ -1,0 +1,35 @@
+model {
+    #--------MODEL-------
+    for (i in 1:N) {
+      price[i] ~ dnorm(mu[i], tau)
+      mu[i] <- beta0 +
+               beta1 * cores[i] +
+	       beta12 * log(cores[i] * cpuMark[i]) +
+               beta2 * cpuMark[i] +
+               beta2_sq * cpuMark[i]^2 +
+               beta5 * TDP[i] +
+               beta5_sq * TDP[i]^2 +
+	       beta52 * TDP[i] * cpuMark[i] +
+	       beta6 * brandIntel[i] +
+               beta7 * catDesktop[i] +
+               beta8 * catLaptop[i] +
+               beta10 * powerPerf[i] +
+               beta10_sq * powerPerf[i]^2
+    }
+    #-------PRIORS-------
+    beta0 ~ dnorm(0, 0.1)
+    beta1 ~ dnorm(0, 0.1)
+    beta12 ~ dnorm(0, 0.1)
+    beta2 ~ dnorm(0, 0.1)
+    beta2_sq ~ dnorm(0, 0.01)
+    beta5 ~ dnorm(0, 0.1)
+    beta5_sq ~ dnorm(0, 0.1)
+    beta52 ~ dnorm(0, 0.1)
+    beta6 ~ dnorm(0, 0.1)
+    beta7 ~ dnorm(0, 0.1)
+    beta8 ~ dnorm(0, 0.1)
+    beta10 ~ dnorm(0, 0.1)
+    beta10_sq ~ dnorm(0, 0.1)
+    tau ~ dgamma(0.1, 0.1)    # precision parameter
+    sigma <- 1 / sqrt(tau)
+}
